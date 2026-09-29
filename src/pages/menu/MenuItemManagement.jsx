@@ -30,7 +30,11 @@ function MenuManagement() {
         <div className="col">
           <div className="card">
             <div className="card-body">
-              <MenuItemTable />
+              <MenuItemTable
+                menuItems={menuItems}
+                isLoading={isLoading}
+                error={error}
+              />
             </div>
           </div>
         </div>
