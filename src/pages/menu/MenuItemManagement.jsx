@@ -1,4 +1,5 @@
 import MenuItemTable from "../../components/menuItem/MenuItemTable";
+import MenuItemModal from "../../components/menuItem/MenuItemModal";
 import { useGetMenuItemsQuery } from "../../store/api/menuItemApi";
 function MenuManagement() {
   const {
@@ -38,7 +39,7 @@ function MenuManagement() {
           </div>
         </div>
       </div>
-      Menu Item Form Modal (Add/Edit)
+      <MenuItemModal />
     </div>
   );
 }
