@@ -48,7 +48,7 @@ function MenuManagement() {
           </div>
         </div>
       </div>
-      {showModal && <MenuItemModal />}
+      {showModal && <MenuItemModal onClose={handleCloseModal} />}
     </div>
   );
 }
