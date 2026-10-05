@@ -11,6 +11,27 @@ function MenuManagement() {
   } = useGetMenuItemsQuery();
   const [showModal, setShowModal] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    specialTag: "",
+    category: "",
+    price: "",
+    image: null,
+  });
+
+  const handleFormSubmit = (formData) => {
+    setIsSubmitting(true);
+    try {
+      //call api to create
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -48,7 +69,14 @@ function MenuManagement() {
           </div>
         </div>
       </div>
-      {showModal && <MenuItemModal onClose={handleCloseModal} />}
+      {showModal && (
+        <MenuItemModal
+          formData={formData}
+          onSubmit={handleFormSubmit}
+          onClose={handleCloseModal}
+          isSubmitting={isSubmitting}
+        />
+      )}
     </div>
   );
 }
