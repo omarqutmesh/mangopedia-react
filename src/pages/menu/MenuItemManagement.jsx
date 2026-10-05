@@ -34,7 +34,7 @@ function MenuManagement() {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const handleCloseModal = () => {
     setShowModal(false);

@@ -1,3 +1,4 @@
+import { CATEGORY, SPECIAL_TAG } from "../../utility/constants";
 function MenuItemModal({
   onClose,
   isSubmitting,
@@ -70,12 +71,15 @@ function MenuItemModal({
                       <select
                         className="form-select"
                         name="category"
-                        defaultValue=""
+                        value={formData.category || ""}
+                        onChange={onChange}
                       >
                         <option value="">Select Category</option>
-                        <option value="CATEGORY" key="CATEGORY">
-                          CATEGORY
-                        </option>
+                        {CATEGORY.map((category) => (
+                          <option value={category} key={category}>
+                            {category}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -102,7 +106,8 @@ function MenuItemModal({
                         name="price"
                         step="0.01"
                         min="0.01"
-                        defaultValue="10.00"
+                        value={formData.price || ""}
+                        onChange={onChange}
                       />
                     </div>
                   </div>
@@ -112,9 +117,14 @@ function MenuItemModal({
                       <select
                         className="form-select"
                         name="specialTag"
-                        defaultValue=""
+                        value={formData.specialTag || ""}
+                        onChange={onChange}
                       >
-                        TAGS
+                        {SPECIAL_TAG.map((tag) => (
+                          <option value={tag} key={tag}>
+                            {tag}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
