@@ -1,4 +1,10 @@
-function MenuItemModal({ onClose, isSubmitting, formData, onSubmit }) {
+function MenuItemModal({
+  onClose,
+  isSubmitting,
+  formData,
+  onSubmit,
+  onChange,
+}) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -53,7 +59,8 @@ function MenuItemModal({ onClose, isSubmitting, formData, onSubmit }) {
                         type="text"
                         className="form-control"
                         name="name"
-                        defaultValue=""
+                        value={formData.name || ""}
+                        onChange={onChange}
                       />
                     </div>
                   </div>
@@ -80,7 +87,8 @@ function MenuItemModal({ onClose, isSubmitting, formData, onSubmit }) {
                     className="form-control"
                     name="description"
                     rows="3"
-                    defaultValue=""
+                    value={formData.description || ""}
+                    onChange={onChange}
                   />
                 </div>
 

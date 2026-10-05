@@ -32,6 +32,10 @@ function MenuManagement() {
       setIsSubmitting(false);
     }
   };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+  };
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -75,6 +79,7 @@ function MenuManagement() {
           onSubmit={handleFormSubmit}
           onClose={handleCloseModal}
           isSubmitting={isSubmitting}
+          onChange={handleInputChange}
         />
       )}
     </div>
