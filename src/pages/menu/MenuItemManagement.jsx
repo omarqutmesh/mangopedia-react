@@ -1,5 +1,6 @@
 import MenuItemTable from "../../components/menuItem/MenuItemTable";
 import MenuItemModal from "../../components/menuItem/MenuItemModal";
+import { toast } from "react-toastify";
 import {
   useGetMenuItemsQuery,
   useCreateMenuItemMutation,
@@ -24,7 +25,16 @@ function MenuManagement() {
     price: "",
     image: null,
   });
-
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      specialTag: "",
+      category: "",
+      price: "",
+      image: null,
+    });
+  };
   const handleFormSubmit = async (formData) => {
     setIsSubmitting(true);
     try {
@@ -40,7 +50,14 @@ function MenuManagement() {
       }
       let result;
       result = await createMenuItem(formDataToSend);
-      console.log(result);
+      if (result.isSuccess !== false) {
+        toast.success("Menu item created successfully!");
+        refetch();
+      } else {
+        toast.error("Failed to create menu item");
+      }
+      setShowModal(false);
+      resetForm();
     } catch (error) {
       console.log(error);
     } finally {
