@@ -97,7 +97,6 @@ function MenuItemTable({ menuItems, isLoading, error, onDelete, onEdit }) {
           </tbody>
         </table>
       </div>
-      ;
     </>
   );
 }
