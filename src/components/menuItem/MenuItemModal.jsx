@@ -6,6 +6,7 @@ function MenuItemModal({
   formData,
   onSubmit,
   onChange,
+  isEditing,
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +56,9 @@ function MenuItemModal({
         <div className={`modal-dialog modal-lg`} role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Add New Menu Item</h5>
+              <h5 className="modal-title">
+                {isEditing ? "Edit Menu Item" : "Add New Menu Item"}
+              </h5>
               <button
                 type="button"
                 className="btn-close"
@@ -173,7 +176,7 @@ function MenuItemModal({
                     {isSubmitting ? (
                       <span className="spinner-border spinner-border-sm me-2" />
                     ) : (
-                      <>CREATE MENU ITEM</>
+                      <>{isEditing ? "Update Menu Item" : "Create Menu Item"}</>
                     )}
                   </button>
                 </div>
