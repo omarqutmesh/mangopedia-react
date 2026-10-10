@@ -8,12 +8,14 @@ import Checkout from "../pages/cart/Checkout";
 import Register from "../pages/auth/Register";
 import OrderConfirmation from "../pages/order/OrderConfirmation";
 import { ROUTES } from "../utility/constants";
+import MenuItemDetails from "../pages/menu/menuItemDetails";
 
 const AppRoutes = () => (
   <Routes>
     <Route path={ROUTES.HOME} element={<Home />} />
     <Route path={ROUTES.LOGIN} element={<Login />} />
     <Route path={ROUTES.REGISTER} element={<Register />} />
+    <Route path={ROUTES.MENU_DETAIL} element={<MenuItemDetails />} />
     <Route path={ROUTES.ORDER_MANAGEMENT} element={<OrderManagement />} />
     <Route path={ROUTES.MENU_MANAGEMENT} element={<MenuItemManagement />} />
     <Route path={ROUTES.CART} element={<Cart />} />
