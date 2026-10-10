@@ -18,7 +18,7 @@ export const menuItemsApi = baseApi.injectEndpoints({
     }),
     getMenuItemById: builder.query({
       query: (id) => `/MenuItem/${id}`,
-      providesTags: (result, error, id)[{ type: "MenuItem", id }],
+      providesTags: (result, error, { id }) => [{ type: "MenuItem", id }],
       transformResponse: (response) => {
         if (response && response.result) {
           return response.result;
@@ -48,7 +48,7 @@ export const menuItemsApi = baseApi.injectEndpoints({
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: [{ type: "MenuItem", id }],
+      invalidatesTags: (result, error, { id }) => [{ type: "MenuItem", id }],
     }),
   }),
 });
@@ -58,4 +58,5 @@ export const {
   useCreateMenuItemMutation,
   useDeleteMenuItemMutation,
   useUpdateMenuItemMutation,
+  useGetMenuItemByIdQuery,
 } = menuItemsApi;

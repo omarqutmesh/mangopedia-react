@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useGetMenuItemByIdQuery } from "../../store/api/menuItemApi";
 function MenuItemDetails() {
   const { id } = useParams();
 
@@ -6,8 +7,15 @@ function MenuItemDetails() {
   const isValidItemId = !isNaN(itemId) && itemId > 0;
   console.log(id);
 
-  return (
-    <>
+  const {
+    data: selectedMenuItem,
+    isLoading,
+    error,
+    refetch,
+  } = useGetMenuItemByIdQuery(itemId);
+
+  if (!isValidItemId) {
+    return (
       <div className="container py-5">
         <div className="alert alert-danger">
           <h4>Invalid Menu Item ID</h4>
@@ -18,14 +26,22 @@ function MenuItemDetails() {
           <button className="btn btn-primary">Back to Home</button>
         </div>
       </div>
+    );
+  }
 
+  if (isLoading) {
+    return (
       <div className="container text-center py-5">
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
         <p className="mt-3">Loading menu item...</p>
       </div>
+    );
+  }
 
+  if (error || !selectedMenuItem) {
+    return (
       <div className="container py-5">
         <div className="alert alert-danger">
           <h4>Error Loading Menu Item</h4>
@@ -36,7 +52,11 @@ function MenuItemDetails() {
           <button className="btn btn-primary">Back to Home</button>
         </div>
       </div>
+    );
+  }
 
+  return (
+    <>
       <div className="container py-4">
         {/* Breadcrumb Navigation */}
         <nav aria-label="breadcrumb" className="mb-4">
