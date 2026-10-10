@@ -1,4 +1,11 @@
+import { useParams } from "react-router-dom";
 function MenuItemDetails() {
+  const { id } = useParams();
+
+  const itemId = parseInt(id);
+  const isValidItemId = !isNaN(itemId) && itemId > 0;
+  console.log(id);
+
   return (
     <>
       <div className="container py-5">

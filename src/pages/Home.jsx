@@ -1,5 +1,6 @@
 import { useGetMenuItemsQuery } from "../store/api/menuItemApi";
-import { API_BASE_URL, CATEGORY } from "../utility/constants";
+import { API_BASE_URL, CATEGORY, ROUTES } from "../utility/constants";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -156,12 +157,12 @@ function Home() {
                       <div className="mt-auto">
                         <div className="row g-2">
                           <div className="col-6">
-                            <a
-                              href="#"
+                            <Link
+                              to={ROUTES.MENU_DETAIL.replace(":id", item.id)}
                               className="btn btn-outline-primary w-100 btn-sm fw-semibold"
                             >
                               <i className="bi bi-info-circle me-1"></i>Details
-                            </a>
+                            </Link>
                           </div>
                           <div className="col-6">
                             <button className="btn btn-primary w-100 btn-sm fw-semibold">
