@@ -35,7 +35,7 @@ function Login() {
           </div>
 
           {/* Form Panel */}
-          <div className="col-md-8 col-lg-5 col-xl-4">
+          <div className="col-md-8 col-lg-5 col-xl-5">
             <div className="border rounded-4 shadow-sm p-4 p-lg-5">
               <div className="mb-4 text-center">
                 <h3 className="fw-bold mb-1">Sign In</h3>
