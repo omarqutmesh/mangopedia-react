@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../store/api/authApi";
 import { toast } from "react-toastify";
-
 import { setAuth } from "../../store/slice/authSlice";
 import { useDispatch } from "react-redux";
 import { getUserInfoFromToken } from "../../utility/jwtUtility";
@@ -15,7 +14,7 @@ function Login() {
     password: "",
   });
 
-  const [LoginUser, { isLoading, error }] = useLoginUserMutation();
+  const [loginUser, { isLoading, error }] = useLoginUserMutation();
 
   const handleChange = (e) => {
     setFormData({
@@ -31,10 +30,6 @@ function Login() {
       return;
     }
 
-    const LoginData = {
-      email: formData.email,
-      password: formData.password,
-    };
     try {
       const result = await loginUser(formData).unwrap();
       if (result.isSuccess) {
@@ -47,11 +42,11 @@ function Login() {
       } else {
         toast.error(result.errorMessages?.[0] || "Login failed");
       }
-      console.log(result);
     } catch (error) {
       toast.error(error.data?.errorMessages?.[0] || "Login failed");
     }
   };
+
   return (
     <div className="min-vh-100 d-flex align-items-center bg-body-tertiary py-5">
       <div className="container">
@@ -88,7 +83,7 @@ function Login() {
           </div>
 
           {/* Form Panel */}
-          <div className="col-md-8 col-lg-5 col-xl-5">
+          <div className="col-md-8 col-lg-6 col-xl-5">
             <div className="border rounded-4 shadow-sm p-4 p-lg-5">
               <div className="mb-4 text-center">
                 <h3 className="fw-bold mb-1">Sign In</h3>
