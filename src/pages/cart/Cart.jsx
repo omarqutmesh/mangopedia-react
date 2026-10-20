@@ -4,13 +4,32 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_BASE_URL, ROUTES } from "../../utility/constants";
-
+import {
+  clearCart,
+  removeFromCart,
+  updateQuantity,
+} from "../../store/slice/cartSlice";
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { items, totalAmount, totalItems } = useSelector((state) => state.cart);
+  const handleQuantityChange = (id, quantity) => {
+    if (quantity < 1) {
+      handleRemoveItem(id);
+      return;
+    }
+    dispatch(updateQuantity({ id, quantity: parseInt(quantity) }));
+  };
 
+  const handleRemoveItem = (id) => {
+    dispatch(removeFromCart(id));
+    toast.success("Item removed from cart.");
+  };
+  const handleClearCart = () => {
+    dispatch(clearCart());
+    toast.success("Cart cleared.");
+  };
   if (items.length === 0) {
     return (
       <div className="container py-5">
@@ -62,7 +81,7 @@ function Cart() {
               >
                 <div className="row g-3">
                   {items.map((item) => (
-                    <div className="col-12">
+                    <div className="col-12" key={item.id}>
                       <div className="border rounded p-3 border-light hover-shadow">
                         <div className="d-flex align-items-center gap-3">
                           {/* Product Image */}
@@ -101,18 +120,36 @@ function Cart() {
                                   <button
                                     className="btn btn-outline-secondary"
                                     type="button"
+                                    onClick={() =>
+                                      handleQuantityChange(
+                                        item.id,
+                                        item.quantity - 1,
+                                      )
+                                    }
                                   >
                                     <i className="bi bi-dash"></i>
                                   </button>
                                   <input
                                     type="number"
                                     value={item.quantity}
+                                    onChange={(e) =>
+                                      handleQuantityChange(
+                                        item.id,
+                                        e.target.value,
+                                      )
+                                    }
                                     className="form-control text-center"
                                     min="1"
                                   />
                                   <button
                                     className="btn btn-outline-secondary"
                                     type="button"
+                                    onClick={() =>
+                                      handleQuantityChange(
+                                        item.id,
+                                        item.quantity + 1,
+                                      )
+                                    }
                                   >
                                     <i className="bi bi-plus"></i>
                                   </button>
@@ -132,6 +169,7 @@ function Cart() {
                                 <button
                                   className="btn btn-outline-danger btn-sm w-100"
                                   title="Remove item"
+                                  onClick={() => handleRemoveItem(item.id)}
                                 >
                                   <i className="bi bi-trash3"></i>
                                 </button>
@@ -168,7 +206,10 @@ function Cart() {
                     <i className="bi bi-arrow-left me-2"></i>
                     Continue Shopping
                   </Link>
-                  <button className="btn btn-outline-danger px-4 rounded-pill">
+                  <button
+                    className="btn btn-outline-danger px-4 rounded-pill"
+                    onClick={handleClearCart}
+                  >
                     <i className="bi bi-trash3 me-2"></i>
                     Clear Cart
                   </button>
