@@ -117,7 +117,7 @@ function Home() {
           ) : (
             <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-5">
               {filteredItems.map((item) => (
-                <div className="col">
+                <div className="col" key={item.id}>
                   <div className="card h-100 border shadow-sm position-relative">
                     <div className="position-relative overflow-hidden rounded-top">
                       <img

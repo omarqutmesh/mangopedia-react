@@ -10,6 +10,7 @@ const getStoredCart = () => {
     return [];
   }
 };
+
 const saveCart = (items) => {
   try {
     localStorage.setItem(STORAGE_KEY_CART, JSON.stringify(items));
@@ -38,13 +39,20 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      const { user, token } = action.payload;
-      state.user = user;
-      state.token = token;
-      state.isAuthenticated = !!(user && token);
+      const existingItem = state.items.find(
+        (item) => item.id === action.payload.id,
+      );
+      if (existingItem) {
+        existingItem.quantity += action.payload.quantity || 1;
+      } else {
+        state.items.push({
+          ...action.payload,
+          quantity: action.payload.quantity || 1,
+        });
+      }
 
-      if (token) localStorage.setItem(STORAGE_KEYS.TOKEN, token);
-      if (user) localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+      Object.assign(state, calculateTotals(state.items));
+      saveCart(state.items);
     },
   },
 });
