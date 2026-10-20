@@ -10,3 +10,22 @@ const getStoredCart = () => {
     return [];
   }
 };
+const saveCart = (items) => {
+  try {
+    localStorage.setItem(STORAGE_KEY_CART, JSON.stringify(items));
+  } catch {
+    console.warn("Failed to save cart:", error);
+  }
+};
+
+const calculateTotals = (items = []) => {
+  let totalItems = 0;
+  let totalAmount = 0;
+
+  for (const item of items) {
+    totalItems += item.quantity;
+    totalAmount += item.price * item.quantity;
+  }
+
+  return { totalItems, totalAmount };
+};
