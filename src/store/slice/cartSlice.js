@@ -29,3 +29,25 @@ const calculateTotals = (items = []) => {
 
   return { totalItems, totalAmount };
 };
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    items: getStoredCart() || [],
+    ...calculateTotals(getStoredCart()),
+  },
+  reducers: {
+    addToCart: (state, action) => {
+      const { user, token } = action.payload;
+      state.user = user;
+      state.token = token;
+      state.isAuthenticated = !!(user && token);
+
+      if (token) localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+      if (user) localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+    },
+  },
+});
+
+export const { addToCart } = cartSlice.actions;
+export default cartSlice.reducer;
