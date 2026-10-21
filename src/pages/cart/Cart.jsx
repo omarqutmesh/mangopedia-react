@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_BASE_URL, ROUTES } from "../../utility/constants";
+import { useCreateOrderMutation } from "../../store/api/ordersApi";
 import {
   clearCart,
   removeFromCart,
@@ -13,8 +14,10 @@ function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
   const { items, totalAmount, totalItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
+
   const handleQuantityChange = (id, quantity) => {
     if (quantity < 1) {
       handleRemoveItem(id);
@@ -71,24 +74,40 @@ function Cart() {
       return;
     }
 
-    const registerData = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      role: formData.role,
+    if (!user?.id) {
+      toast.error("Unable to identify user. Please log in again.");
+      return;
+    }
+
+    const orderData = {
+      pickUpName: formData.pickUpName,
+      pickUpPhoneNumber: formData.pickUpPhoneNumber,
+      pickUpEmail: formData.pickUpEmail,
+      applicationUserId: user?.id,
+      orderTotal: totalAmount,
+      totalItem: totalItems,
+      orderDetailsDTO: items.map((item) => ({
+        menuItemId: item.id,
+        quantity: item.quantity,
+        itemName: item.name,
+        price: item.price,
+      })),
     };
+    console.log(orderData);
     try {
-      const result = await registerUser(registerData).unwrap();
+      const result = await createOrder(orderData).unwrap();
       if (result.isSuccess) {
-        toast.success("Registration successful! Please login to continue.");
-        navigate(ROUTES.LOGIN);
+        console.log(result);
+        toast.success("Order placed successfully!");
+        //navigate(ROUTES.LOGIN);
       } else {
-        toast.error(result.errorMessages?.[0] || "Registration failed");
+        toast.error(result.errorMessages?.[0] || "Failed to place order");
       }
     } catch (error) {
-      toast.error(error.data?.errorMessages?.[0] || "Registration failed");
+      toast.error(error.data?.errorMessages?.[0] || "Failed to place order");
     }
   };
+
   if (items.length === 0) {
     return (
       <div className="container py-5">
@@ -291,7 +310,6 @@ function Cart() {
                         <i className="bi bi-person-check me-2"></i>
                         Pickup Details
                       </h5>
-
                       <div className="row g-3">
                         <div className="col-12">
                           <div className="form-floating">
