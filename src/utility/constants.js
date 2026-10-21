@@ -22,3 +22,7 @@ export const SPECIAL_TAG = [
   "Chef's Special",
   "New",
 ];
+export const STORAGE_KEYS = {
+  TOKEN: "token-mango",
+  USER: "user-mango",
+};
