@@ -26,3 +26,9 @@ export const STORAGE_KEYS = {
   TOKEN: "token-mango",
   USER: "user-mango",
 };
+export const ORDER_STATUS = {
+  CONFIRMED: "Confirmed",
+  READY_FOR_PICKUP: "Ready for Pickup",
+  COMPLETED: "Completed",
+  CANCELLED: "Cancelled",
+};
