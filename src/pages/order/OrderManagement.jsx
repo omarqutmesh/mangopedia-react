@@ -18,6 +18,7 @@ function OrderManagement() {
 
   const [statusFilter, setStatusFilter] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
+
   console.log(orders);
   const handleFormSubmit = async (formData) => {
     setIsSubmitting(true);
@@ -42,6 +43,17 @@ function OrderManagement() {
       setIsSubmitting(false);
     }
   };
+
+  const handleEditOrder = (order) => {
+    setShowModal(true);
+    setSelectedOrder(order);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedOrder(null);
+  };
+
   const filteredOrders = orders.filter((order) => {
     const statusMatch = statusFilter ? order.status === statusFilter : true;
 
@@ -56,15 +68,6 @@ function OrderManagement() {
     return statusMatch && searchMatch;
   });
 
-  const handleEditOrder = (order) => {
-    setShowModal(true);
-    setSelectedOrder(order);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedOrder(null);
-  };
   return (
     <div className="container-fluid p-4 mx-3">
       <div className="row mb-4">
@@ -86,13 +89,20 @@ function OrderManagement() {
                   className="form-control"
                   placeholder="Search by name, email, or phone..."
                   style={{ minWidth: "350px" }}
+                  value={searchFilter}
+                  onChange={(e) => setSearchFilter(e.target.value)}
                 />
               </div>
               <div>
                 <label className="form-label small fw-semibold text-uppercase text-muted mb-1">
                   Filter by Status
                 </label>
-                <select className="form-select" style={{ minWidth: "200px" }}>
+                <select
+                  className="form-select"
+                  style={{ minWidth: "200px" }}
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
                   <option value="">All Orders</option>
                   {ORDER_STATUS_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -110,7 +120,7 @@ function OrderManagement() {
           <div className="card">
             <div className="card-body">
               <OrderTable
-                orders={orders}
+                orders={filteredOrders}
                 isLoading={isLoading}
                 error={error}
                 onEdit={handleEditOrder}
