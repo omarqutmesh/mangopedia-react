@@ -15,6 +15,9 @@ function OrderManagement() {
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const [statusFilter, setStatusFilter] = useState("");
+  const [searchFilter, setSearchFilter] = useState("");
   console.log(orders);
   const handleFormSubmit = async (formData) => {
     setIsSubmitting(true);
@@ -39,6 +42,19 @@ function OrderManagement() {
       setIsSubmitting(false);
     }
   };
+  const filteredOrders = orders.filter((order) => {
+    const statusMatch = statusFilter ? order.status === statusFilter : true;
+
+    const searchMatch = searchFilter
+      ? order.pickUpName.toLowerCase().includes(searchFilter.toLowerCase()) ||
+        order.pickUpEmail.toLowerCase().includes(searchFilter.toLowerCase()) ||
+        order.pickUpPhoneNumber
+          .toLowerCase()
+          .includes(searchFilter.toLowerCase())
+      : true;
+
+    return statusMatch && searchMatch;
+  });
 
   const handleEditOrder = (order) => {
     setShowModal(true);
