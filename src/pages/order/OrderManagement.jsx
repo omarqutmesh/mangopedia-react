@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import OrderTable from "../../components/orders/OrderTable";
-
+import OrderDetailsModal from "../../components/orders/OrderDetailsModal";
 import {
   useGetOrdersQuery,
   useUpdateOrderMutation,
@@ -129,16 +129,14 @@ function OrderManagement() {
           </div>
         </div>
       </div>
-      {/* {showModal && (
-        <MenuItemModal
-          formData={formData}
+      {showModal && (
+        <OrderDetailsModal
+          order={selectedOrder}
           onSubmit={handleFormSubmit}
           onClose={handleCloseModal}
           isSubmitting={isSubmitting}
-          onChange={handleInputChange}
-          isEditing={!!selectedMenuItem}
         />
-      )} */}
+      )}
     </div>
   );
 }
