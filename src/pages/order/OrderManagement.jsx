@@ -17,7 +17,7 @@ function OrderManagement() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [updateData, setUpdateData] = useState({
-    Status: "",
+    status: "",
   });
 
   const [statusFilter, setStatusFilter] = useState("");

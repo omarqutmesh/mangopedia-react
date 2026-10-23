@@ -41,7 +41,7 @@ function OrderDetailsModal({
               />
             </div>
             <div className="modal-body">
-              <form className="pt-2">
+              <form className="pt-2" onSubmit={onSubmit}>
                 <div className="row g-3 mb-3">
                   <div className="col-md-6">
                     <div className="border rounded-3 p-3 h-100">
@@ -94,11 +94,11 @@ function OrderDetailsModal({
                       </label>
                       <select
                         className="form-select"
-                        value={updateData.Status || ""}
+                        value={updateData.status || ""}
                         onChange={(e) =>
                           onUpdateDataChange({
                             ...updateData,
-                            Status: e.target.value,
+                            status: e.target.value,
                           })
                         }
                       >
@@ -150,9 +150,6 @@ function OrderDetailsModal({
                                   <i className="bi bi-star me-1"></i>
                                   Rate this item
                                 </h6>
-                                <p className="mb-2 small text-muted">
-                                  How was your experience with this item?
-                                </p>
                               </div>
                             </div>
                           </div>
@@ -171,13 +168,24 @@ function OrderDetailsModal({
                   >
                     Close
                   </button>
-                  <button type="submit" className="btn btn-primary">
-                    <span
-                      className="spinner-border spinner-border-sm me-2"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    Updating... "Update Order"
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={isSubmitting || !updateData.status}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        {" "}
+                        <span
+                          className="spinner-border spinner-border-sm me-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Updating...
+                      </>
+                    ) : (
+                      <>Update Order</>
+                    )}
                   </button>
                 </div>
               </form>
