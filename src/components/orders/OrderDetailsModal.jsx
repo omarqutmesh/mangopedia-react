@@ -1,6 +1,14 @@
+import { ORDER_STATUS } from "../../utility/constants";
 import { formatDate } from "../../utility/generalUtility";
 
-function OrderDetailsModal({ order, onSubmit, onClose, isSubmitting }) {
+function OrderDetailsModal({
+  order,
+  onSubmit,
+  onClose,
+  isSubmitting,
+  onUpdateDataChange,
+  updateData,
+}) {
   console.log(order);
   return (
     <>
@@ -84,8 +92,30 @@ function OrderDetailsModal({ order, onSubmit, onClose, isSubmitting }) {
                       <label className="form-label small fw-semibold text-uppercase text-muted">
                         Change To
                       </label>
-                      <select className="form-select">
+                      <select
+                        className="form-select"
+                        value={updateData.Status || ""}
+                        onChange={(e) =>
+                          onUpdateDataChange({
+                            ...updateData,
+                            Status: e.target.value,
+                          })
+                        }
+                      >
                         <option value="">Select...</option>
+                        {order?.status === ORDER_STATUS.CONFIRMED && (
+                          <option value={ORDER_STATUS.READY_FOR_PICKUP}>
+                            {ORDER_STATUS.READY_FOR_PICKUP}
+                          </option>
+                        )}
+                        {order?.status === ORDER_STATUS.READY_FOR_PICKUP && (
+                          <option value={ORDER_STATUS.COMPLETED}>
+                            {ORDER_STATUS.COMPLETED}
+                          </option>
+                        )}
+                        <option value={ORDER_STATUS.CANCELLED}>
+                          {ORDER_STATUS.CANCELLED}
+                        </option>
                       </select>
                     </div>
                   </div>

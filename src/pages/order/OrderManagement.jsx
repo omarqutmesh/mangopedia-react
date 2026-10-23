@@ -1,12 +1,13 @@
 import { toast } from "react-toastify";
 import OrderTable from "../../components/orders/OrderTable";
-import OrderDetailsModal from "../../components/orders/OrderDetailsModal";
+
 import {
   useGetOrdersQuery,
   useUpdateOrderMutation,
 } from "../../store/api/ordersApi";
 import { useState } from "react";
 import { ORDER_STATUS_OPTIONS } from "../../utility/constants";
+import OrderDetailsModal from "../../components/orders/OrderDetailsModal";
 function OrderManagement() {
   const { data: orders = [], isLoading, error, refetch } = useGetOrdersQuery();
 
@@ -15,11 +16,13 @@ function OrderManagement() {
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [updateData, setUpdateData] = useState({
+    Status: "",
+  });
 
   const [statusFilter, setStatusFilter] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
 
-  console.log(orders);
   const handleFormSubmit = async (formData) => {
     setIsSubmitting(true);
     try {
@@ -132,6 +135,8 @@ function OrderManagement() {
       {showModal && (
         <OrderDetailsModal
           order={selectedOrder}
+          updateData={updateData}
+          onUpdateDataChange={setUpdateData}
           onSubmit={handleFormSubmit}
           onClose={handleCloseModal}
           isSubmitting={isSubmitting}
