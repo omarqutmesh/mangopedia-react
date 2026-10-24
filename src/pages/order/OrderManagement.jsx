@@ -161,6 +161,7 @@ function OrderManagement() {
           onSubmit={handleFormSubmit}
           onClose={handleCloseModal}
           isSubmitting={isSubmitting}
+          isAdmin={isAdmin}
         />
       )}
     </div>
