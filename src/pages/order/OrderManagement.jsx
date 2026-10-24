@@ -1,12 +1,13 @@
 import { toast } from "react-toastify";
 import OrderTable from "../../components/orders/OrderTable";
-import { useSelector } from "react-redux";
+
 import {
   useGetOrdersQuery,
   useUpdateOrderMutation,
 } from "../../store/api/ordersApi";
 import { useState } from "react";
 import { ORDER_STATUS_OPTIONS, ROLES } from "../../utility/constants";
+import { useSelector } from "react-redux";
 import OrderDetailsModal from "../../components/orders/OrderDetailsModal";
 function OrderManagement() {
   const { data: orders = [], isLoading, error, refetch } = useGetOrdersQuery();
@@ -33,9 +34,7 @@ function OrderManagement() {
         setIsSubmitting(false);
         return;
       }
-
       let result;
-
       result = await updateOrder({
         orderId: selectedOrder.orderHeaderId,
         orderData: {
@@ -44,7 +43,7 @@ function OrderManagement() {
         },
       });
       if (result.isSuccess !== false) {
-        toast.success("Order Updated successfully!");
+        toast.success("Order updated successfully!");
         refetch();
       } else {
         toast.error("Failed to update order.");
