@@ -1,18 +1,18 @@
 import { toast } from "react-toastify";
 import OrderTable from "../../components/orders/OrderTable";
-
+import { useSelector } from "react-redux";
 import {
   useGetOrdersQuery,
   useUpdateOrderMutation,
 } from "../../store/api/ordersApi";
 import { useState } from "react";
-import { ORDER_STATUS_OPTIONS } from "../../utility/constants";
+import { ORDER_STATUS_OPTIONS, ROLES } from "../../utility/constants";
 import OrderDetailsModal from "../../components/orders/OrderDetailsModal";
 function OrderManagement() {
   const { data: orders = [], isLoading, error, refetch } = useGetOrdersQuery();
-
+  const { user } = useSelector((state) => state.auth);
   const [updateOrder] = useUpdateOrderMutation();
-
+  const isAdmin = user?.role === ROLES.ADMIN;
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -23,23 +23,34 @@ function OrderManagement() {
   const [statusFilter, setStatusFilter] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
 
-  const handleFormSubmit = async (formData) => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
     setIsSubmitting(true);
     try {
       //call api to create
+      if (!selectedOrder || !isAdmin) {
+        toast.error("You do not have permission to update orders");
+        setIsSubmitting(false);
+        return;
+      }
 
       let result;
 
-      result = await createMenuItem(formDataToSend);
+      result = await updateOrder({
+        orderId: selectedOrder.orderHeaderId,
+        orderData: {
+          status: updateData.status,
+          orderHeaderId: selectedOrder.orderHeaderId,
+        },
+      });
       if (result.isSuccess !== false) {
-        toast.success("Menu item created successfully!");
+        toast.success("Order Updated successfully!");
         refetch();
       } else {
-        toast.error("Failed to create menu item");
+        toast.error("Failed to update order.");
       }
 
       setShowModal(false);
-      resetForm();
     } catch (error) {
       console.log(error);
     } finally {
