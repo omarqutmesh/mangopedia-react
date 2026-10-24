@@ -10,10 +10,21 @@ import { ORDER_STATUS_OPTIONS, ROLES } from "../../utility/constants";
 import { useSelector } from "react-redux";
 import OrderDetailsModal from "../../components/orders/OrderDetailsModal";
 function OrderManagement() {
-  const { data: orders = [], isLoading, error, refetch } = useGetOrdersQuery();
   const { user } = useSelector((state) => state.auth);
-  const [updateOrder] = useUpdateOrderMutation();
+
   const isAdmin = user?.role === ROLES.ADMIN;
+  let userId = "";
+  if (!isAdmin && user) {
+    userId = user.id;
+  }
+  const {
+    data: orders = [],
+    isLoading,
+    error,
+    refetch,
+  } = useGetOrdersQuery(userId, { refetchOnMountOrArgChange: true });
+
+  const [updateOrder] = useUpdateOrderMutation();
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
