@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../../utility/constants";
-import { formatDate } from "../../utility/generalUtility";
+import { formatDate, getOrderStatusColor } from "../../utility/generalUtility";
 
 function OrderTable({ orders, isLoading, error, onEdit }) {
   if (isLoading) {
@@ -69,7 +69,11 @@ function OrderTable({ orders, isLoading, error, onEdit }) {
                 </td>
                 <td>${parseFloat(order.orderTotal || 0).toFixed(2)}</td>
                 <td>
-                  <span className={`btn btn-sm disabled btn-primary`}>
+                  <span
+                    className={`btn btn-sm disabled btn-${getOrderStatusColor(
+                      order.status,
+                    )}`}
+                  >
                     {order.status}
                   </span>
                 </td>
